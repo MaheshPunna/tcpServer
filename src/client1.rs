@@ -13,12 +13,17 @@ fn main() {
         let mut stream = TcpStream::connect("127.0.0.1:3000").unwrap();
         vec.push(stream);
     }
-    // loop {
-    //             let msg = format!("the answer is {}", i);
-    //             let mut buf = [0u8; 512];
+    for i in 0..NTHREADS
+    {
+    thread::spawn(|| {
+        loop {
+                let mut buf = [0u8; 512];
 
-    //             //println!("thread {}: Sending over ", i);
-    //             stream.write_all(buf.as_ref()).unwrap();
+                //println!("thread {}: Sending over ", i);
+                vec[i].write_all(buf.as_ref()).unwrap();
 
-    // }
+        }    
+        });
+    }
+   
 }
